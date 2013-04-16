@@ -1,6 +1,6 @@
 <?php namespace meltingmedia;
 
-class RTE
+class rte
 {
     /** @var \modX  */
     public $modx;
@@ -11,13 +11,11 @@ class RTE
     {
         $this->modx =& $modx;
         $this->config = array_merge(array(
-            'component_name' => null,
-            'package_name' => null,
             'namespace' => null,
-            'migrations_path' => null,
         ), $options);
 
         $this->editor = $this->modx->getOption('which_editor',null, null);
+        if ($this->editor) $this->load();
     }
 
     public function load()
