@@ -5,6 +5,7 @@ class RTE
     /** @var \modX  */
     public $modx;
     public $config = array();
+    protected $editor;
 
     public function __construct(\modX &$modx, array $options = array())
     {
@@ -15,16 +16,16 @@ class RTE
             'namespace' => null,
             'migrations_path' => null,
         ), $options);
+
+        $this->editor = $this->modx->getOption('which_editor',null, null);
     }
 
     public function load()
     {
-        $rte = $this->modx->getOption('which_editor');
-
-        if (!empty($rte)) {
+        if (!empty($this->editor)) {
             $options = array();
 
-            if ($rte == 'TinyMCE') {
+            if ($this->editor == 'TinyMCE') {
                 $options = array(
                     // Test settings
 //                    'tiny.custom_buttons1' => 'bold,italic,underline,sub,sup,separator,bullist,numlist,separator,formatselect',
@@ -76,7 +77,7 @@ class RTE
 
     public function getSetting($key)
     {
-        $rte = $this->modx->getOption('which_editor');
+        $rte = $this->editor;
         $cmpKey = $this->config['namespace'] . '.' . $key;
         switch ($rte) {
             case 'TinyMCE':
