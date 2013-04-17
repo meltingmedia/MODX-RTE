@@ -1,4 +1,4 @@
-<?php namespace meltingmedia\rte\rte;
+<?php namespace meltingmedia\rte\type;
 
 class TinyMCE
 {
