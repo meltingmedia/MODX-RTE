@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-0": {
-            "meltingmedia\\rte": "src/"
+            "meltingmedia\\rte\\": "src/"
         }
     }
 }
