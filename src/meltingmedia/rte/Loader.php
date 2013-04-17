@@ -34,20 +34,28 @@ class Loader
     {
         $rte = $this->editor;
         $cmpKey = $this->config['namespace'] . '.' . $key;
-        switch ($rte) {
-            case 'TinyMCE':
-                $rtePrefix = 'tiny.';
-                break;
-            case 'CKEditor':
-                $rtePrefix = 'ckeditor.';
-                break;
-        }
-        $setting = $this->modx->getOption($cmpKey);
-        $defaultKey = $rtePrefix . $key;
+        $setting = $this->modx->getOption($cmpKey, $default);
 
-        if (!$setting) $setting = $this->modx->getOption($defaultKey);
         if ($setting == 'none') return '';
+        if (!$setting) {
+            $setting = $this->getDefaultSetting($key);
+        }
 
         return $setting;
+    }
+
+    public function getDefaultSetting($key)
+    {
+        $defaultPrefix = null;
+        switch ($this->editor) {
+            case 'TinyMCE':
+                $defaultPrefix = 'tiny.';
+                break;
+            case 'CKEditor':
+                $defaultPrefix = 'ckeditor.';
+                break;
+        }
+
+        return $this->modx->getOption($defaultPrefix . $key);
     }
 }
