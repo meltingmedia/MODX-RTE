@@ -3,7 +3,7 @@
 use meltingmedia\rte\type\TinyMCE,
     meltingmedia\rte\type\CKEditor;
 
-class Loader
+class loader
 {
     /** @var \modX  */
     public $modx;
