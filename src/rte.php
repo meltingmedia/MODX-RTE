@@ -1,9 +1,9 @@
-<?php namespace meltingmedia;
+<?php namespace meltingmedia\rte;
 
 use meltingmedia\rte\type\TinyMCE,
     meltingmedia\rte\type\CKEditor;
 
-class rte
+class Loader
 {
     /** @var \modX  */
     public $modx;
@@ -25,6 +25,7 @@ class rte
     {
         if (!empty($this->editor)) {
             $options = new $this->editor($this);
+
             $test = new CKEditor($this);
             $testAgain = new TinyMCE($this);
 
@@ -32,7 +33,7 @@ class rte
         }
     }
 
-    public function getSetting($key)
+    public function getSetting($key, $default = null)
     {
         $rte = $this->editor;
         $cmpKey = $this->config['namespace'] . '.' . $key;

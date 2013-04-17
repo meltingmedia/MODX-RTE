@@ -4,10 +4,10 @@ abstract class BaseRTE
 {
     /** @var \modX */
     public $modx;
-    /** @var \meltingmedia\rte */
+    /** @var \meltingmedia\rte\Loader */
     public $rte;
 
-    public function __construct(\meltingmedia\rte $rte)
+    public function __construct(\meltingmedia\rte\Loader $rte)
     {
         $this->rte =& $rte;
         $this->modx =& $this->rte->modx;
