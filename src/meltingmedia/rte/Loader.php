@@ -12,6 +12,7 @@ class Loader
         $this->modx =& $modx;
         $this->config = array_merge(array(
             'namespace' => null,
+            'empty_setting_value' => 'none',
         ), $options);
 
         $this->editor = $this->modx->getOption('which_editor',null, null);
@@ -32,11 +33,10 @@ class Loader
 
     public function getSetting($key, $default = null)
     {
-        $rte = $this->editor;
         $cmpKey = $this->config['namespace'] . '.' . $key;
-        $setting = $this->modx->getOption($cmpKey, $default);
-
-        if ($setting == 'none') return '';
+        $setting = $this->modx->getOption($cmpKey, null, $default);
+        // Check if string mean 'no value'
+        if ($setting == $this->config['empty_setting_value']) return '';
         if (!$setting) {
             $setting = $this->getDefaultSetting($key);
         }
