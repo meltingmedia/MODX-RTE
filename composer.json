@@ -2,7 +2,7 @@
     "name": "meltingmedia/rte",
     "description": "Helper to load RTEs in your MODX components/extras",
     "type": "library",
-    "keywords": "modx, helper, rte",
+    "keywords": ["modx", "helper", "rte"],
     "license": "MIT",
     "authors": [
         {
