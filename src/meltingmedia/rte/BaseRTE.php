@@ -11,15 +11,11 @@ abstract class BaseRTE
     {
         $this->rte =& $rte;
         $this->modx =& $this->rte->modx;
-
-        $this->modx->log(\modX::LOG_LEVEL_INFO, 'loading ' . $this->rte->editor);
-
-        return $this->getOptions();
     }
 
-    protected function getSetting($key)
+    protected function getSetting($key, $default = null)
     {
-        return $this->rte->getSetting($key);
+        return $this->rte->getSetting($key, $default);
     }
 
     abstract function getOptions();

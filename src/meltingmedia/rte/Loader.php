@@ -1,9 +1,6 @@
 <?php namespace meltingmedia\rte;
 
-use meltingmedia\rte\type\TinyMCE,
-    meltingmedia\rte\type\CKEditor;
-
-class loader
+class Loader
 {
     /** @var \modX  */
     public $modx;
@@ -23,11 +20,11 @@ class loader
 
     public function load()
     {
-        if (!empty($this->editor)) {
-            $options = new $this->editor($this);
-
-            $test = new CKEditor($this);
-            $testAgain = new TinyMCE($this);
+        if (!empty($this->editor) && 'None' != $this->editor) {
+            $editor = '\\meltingmedia\\rte\\type\\' . $this->editor;
+            /** @var BaseRTE $rte */
+            $rte = new $editor($this);
+            $options = $rte->getOptions();
 
             $this->modx->invokeEvent('OnRichTextEditorInit', $options);
         }
