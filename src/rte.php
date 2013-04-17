@@ -1,4 +1,4 @@
-<?php namespace meltingmedia;
+<?php namespace meltingmedia\rte;
 
 class rte
 {
