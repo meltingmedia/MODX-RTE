@@ -19,9 +19,22 @@ class Loader
         if ($this->editor) $this->load();
     }
 
+    public function getSupportedRTEs()
+    {
+        $supported = array();
+        /** @var \DirectoryIterator $file */
+        foreach(new \DirectoryIterator(dirname(__FILE__) . '/type/') as $file) {
+            if ($file->isDot() || $file->isDir()) continue;
+            $supported[] = rtrim($file->getFilename(), '.' . $file->getExtension());
+        }
+
+        return $supported;
+    }
+
     public function load()
     {
-        if (!empty($this->editor) && 'None' != $this->editor) {
+        $supported = $this->getSupportedRTEs();
+        if (!empty($this->editor) && in_array($this->editor, $supported)) {
             $editor = '\\meltingmedia\\rte\\type\\' . $this->editor;
             /** @var BaseRTE $rte */
             $rte = new $editor($this);
