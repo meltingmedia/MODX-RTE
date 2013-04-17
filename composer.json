@@ -16,6 +16,8 @@
         "php": ">=5.3.0"
     },
     "autoload": {
-        "files": ["src/rte.php"]
+        "psr-0": {
+            "meltingmedia\\rte": "src/"
+        }
     }
 }
