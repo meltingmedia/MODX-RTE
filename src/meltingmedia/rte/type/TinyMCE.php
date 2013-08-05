@@ -1,9 +1,16 @@
 <?php namespace meltingmedia\rte\type;
 
 use meltingmedia\rte\BaseRTE;
-
+/**
+ * TinyMCE support
+ *
+ * @package meltingmedia\rte\type
+ */
 class TinyMCE extends BaseRTE
 {
+    /**
+     * @inherit
+     */
     public function getOptions()
     {
         return array(

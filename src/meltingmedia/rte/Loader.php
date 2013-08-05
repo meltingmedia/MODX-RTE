@@ -1,5 +1,9 @@
 <?php namespace meltingmedia\rte;
-
+/**
+ * Service class "RTE Loader"
+ *
+ * @package meltingmedia\rte
+ */
 class Loader
 {
     /** @var \modX  */
@@ -19,6 +23,11 @@ class Loader
         if ($this->editor) $this->load();
     }
 
+    /**
+     * Returns an array of supported RTEs
+     *
+     * @return array The RTEs' names
+     */
     public function getSupportedRTEs()
     {
         $supported = array();
@@ -44,6 +53,14 @@ class Loader
         }
     }
 
+    /**
+     * Get a setting for the current RTE
+     *
+     * @param string $key The setting key
+     * @param mixed $default Optional default value
+     *
+     * @return mixed|string The setting value
+     */
     public function getSetting($key, $default = null)
     {
         $cmpKey = $this->config['namespace'] . '.' . $key;
@@ -57,6 +74,13 @@ class Loader
         return $setting;
     }
 
+    /**
+     * Get the original RTE setting value
+     *
+     * @param string $key The setting key
+     *
+     * @return mixed The setting value
+     */
     public function getDefaultSetting($key)
     {
         $defaultPrefix = null;
