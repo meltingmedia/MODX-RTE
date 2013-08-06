@@ -1,9 +1,5 @@
 <?php namespace meltingmedia\rte;
-/**
- * Service class "RTE Loader"
- *
- * @package meltingmedia\rte
- */
+
 class Loader
 {
     /** @var \modX  */
@@ -19,15 +15,10 @@ class Loader
             'empty_setting_value' => 'none',
         ), $options);
 
-        $this->editor = $this->modx->getOption('which_editor',null, null);
+        $this->editor = $this->modx->getOption('which_editor', null, null);
         if ($this->editor) $this->load();
     }
 
-    /**
-     * Returns an array of supported RTEs
-     *
-     * @return array The RTEs' names
-     */
     public function getSupportedRTEs()
     {
         $supported = array();
@@ -49,18 +40,16 @@ class Loader
             $rte = new $editor($this);
             $options = $rte->getOptions();
 
-            $this->modx->invokeEvent('OnRichTextEditorInit', $options);
+            $result = $this->modx->invokeEvent('OnRichTextEditorInit', $options);
+            if (!empty($result)) {
+                if (is_array($result)) {
+                    $result = implode('', $result);
+                }
+                $this->modx->controller->addHtml($result);
+            }
         }
     }
 
-    /**
-     * Get a setting for the current RTE
-     *
-     * @param string $key The setting key
-     * @param mixed $default Optional default value
-     *
-     * @return mixed|string The setting value
-     */
     public function getSetting($key, $default = null)
     {
         $cmpKey = $this->config['namespace'] . '.' . $key;
@@ -74,13 +63,6 @@ class Loader
         return $setting;
     }
 
-    /**
-     * Get the original RTE setting value
-     *
-     * @param string $key The setting key
-     *
-     * @return mixed The setting value
-     */
     public function getDefaultSetting($key)
     {
         $defaultPrefix = null;
@@ -90,6 +72,9 @@ class Loader
                 break;
             case 'CKEditor':
                 $defaultPrefix = 'ckeditor.';
+                break;
+            case 'Redactor':
+                $defaultPrefix = 'redactor.';
                 break;
         }
 
