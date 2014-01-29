@@ -22,10 +22,14 @@ class Loader
     public function getSupportedRTEs()
     {
         $supported = array();
-        /** @var \DirectoryIterator $file */
+        /** @type \DirectoryIterator $file */
         foreach(new \DirectoryIterator(dirname(__FILE__) . '/type/') as $file) {
-            if ($file->isDot() || $file->isDir()) continue;
-            $supported[] = rtrim($file->getFilename(), '.' . $file->getExtension());
+            if ($file->isDot() || $file->isDir()) {
+                continue;
+            }
+            $name = $file->getFilename();
+            $ext = pathinfo($name, PATHINFO_EXTENSION);
+            $supported[] = rtrim($name, '.' . $ext);
         }
 
         return $supported;
