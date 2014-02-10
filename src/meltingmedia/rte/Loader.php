@@ -2,9 +2,21 @@
 
 class Loader
 {
-    /** @var \modX  */
+    /**
+     * A modX instance
+     *
+     * @var \modX
+     */
     public $modx;
+    /**
+     * @var array
+     */
     public $config = array();
+    /**
+     * The active editor name
+     *
+     * @var string|null
+     */
     public $editor;
 
     public function __construct(\modX &$modx, array $options = array())
@@ -16,14 +28,21 @@ class Loader
         ), $options);
 
         $this->editor = $this->modx->getOption('which_editor', null, null);
-        if ($this->editor) $this->load();
+        if ($this->editor) {
+            $this->load();
+        }
     }
 
+    /**
+     * Iterate over supported RTEs classes
+     *
+     * @return array
+     */
     public function getSupportedRTEs()
     {
         $supported = array();
         /** @type \DirectoryIterator $file */
-        foreach(new \DirectoryIterator(dirname(__FILE__) . '/type/') as $file) {
+        foreach (new \DirectoryIterator(dirname(__FILE__) . '/type/') as $file) {
             if ($file->isDot() || $file->isDir()) {
                 continue;
             }
@@ -35,6 +54,11 @@ class Loader
         return $supported;
     }
 
+    /**
+     * Instantiate the appropriate RTE class
+     *
+     * @return void
+     */
     public function load()
     {
         $supported = $this->getSupportedRTEs();
@@ -54,12 +78,22 @@ class Loader
         }
     }
 
+    /**
+     * Convenient method to support RTE overrides for the component
+     *
+     * @param string $key The system setting key to grab, without any prefix
+     * @param null $default An optional default value
+     *
+     * @return mixed|string The setting value, if any
+     */
     public function getSetting($key, $default = null)
     {
         $cmpKey = $this->config['namespace'] . '.' . $key;
         $setting = $this->modx->getOption($cmpKey, null, $default);
         // Check if string mean 'no value'
-        if ($setting == $this->config['empty_setting_value']) return '';
+        if ($setting == $this->config['empty_setting_value']) {
+            return '';
+        }
         if (!$setting) {
             $setting = $this->getDefaultSetting($key);
         }
@@ -67,6 +101,13 @@ class Loader
         return $setting;
     }
 
+    /**
+     * Get default system setting for the editor
+     *
+     * @param string $key The setting key
+     *
+     * @return mixed The setting value, if any
+     */
     public function getDefaultSetting($key)
     {
         $defaultPrefix = null;

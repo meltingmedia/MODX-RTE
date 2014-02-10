@@ -6,9 +6,17 @@
  */
 abstract class BaseRTE
 {
-    /** @var \modX */
+    /**
+     * A modX instance
+     *
+     * @var \modX
+     */
     public $modx;
-    /** @var \meltingmedia\rte\Loader */
+    /**
+     * A Loader instance
+     *
+     * @var \meltingmedia\rte\Loader
+     */
     public $rte;
 
     public function __construct(\meltingmedia\rte\Loader $rte)
