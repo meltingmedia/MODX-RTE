@@ -1,4 +1,5 @@
-<?php namespace meltingmedia\rte;
+<?php namespace meltingmedia\modx\rte;
+
 /**
  * Base class to extend to support additional RTEs
  *
@@ -15,11 +16,11 @@ abstract class BaseRTE
     /**
      * A Loader instance
      *
-     * @var \meltingmedia\rte\Loader
+     * @var \meltingmedia\modx\rte\Loader
      */
     public $rte;
 
-    public function __construct(\meltingmedia\rte\Loader $rte)
+    public function __construct(Loader $rte)
     {
         $this->rte =& $rte;
         $this->modx =& $this->rte->modx;
@@ -43,5 +44,5 @@ abstract class BaseRTE
      *
      * @return array
      */
-    abstract function getOptions();
+    abstract public function getOptions();
 }

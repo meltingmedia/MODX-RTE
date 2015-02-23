@@ -1,10 +1,9 @@
-<?php namespace meltingmedia\rte\type;
+<?php namespace meltingmedia\modx\rte\Type;
 
-use meltingmedia\rte\BaseRTE;
+use meltingmedia\modx\rte\BaseRTE;
+
 /**
  * Redactor support
- *
- * @package meltingmedia\rte\type
  */
 class Redactor extends BaseRTE
 {

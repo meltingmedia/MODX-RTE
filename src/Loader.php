@@ -1,4 +1,4 @@
-<?php namespace meltingmedia\rte;
+<?php namespace meltingmedia\modx\rte;
 
 class Loader
 {
@@ -63,7 +63,7 @@ class Loader
     {
         $supported = $this->getSupportedRTEs();
         if (!empty($this->editor) && in_array($this->editor, $supported)) {
-            $editor = '\\meltingmedia\\rte\\type\\' . $this->editor;
+            $editor = '\\meltingmedia\\modx\\rte\\type\\' . $this->editor;
             /** @var BaseRTE $rte */
             $rte = new $editor($this);
             $options = $rte->getOptions();

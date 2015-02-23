@@ -1,10 +1,9 @@
-<?php namespace meltingmedia\rte\type;
+<?php namespace meltingmedia\modx\rte\Type;
 
-use meltingmedia\rte\BaseRTE;
+use meltingmedia\modx\rte\BaseRTE;
+
 /**
  * CKEditor support
- *
- * @package meltingmedia\rte\type
  */
 class CKEditor extends BaseRTE
 {

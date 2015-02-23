@@ -1,10 +1,9 @@
-<?php namespace meltingmedia\rte\type;
+<?php namespace meltingmedia\modx\rte\Type;
 
-use meltingmedia\rte\BaseRTE;
+use meltingmedia\modx\rte\BaseRTE;
+
 /**
  * TinyMCE support
- *
- * @package meltingmedia\rte\type
  */
 class TinyMCE extends BaseRTE
 {
