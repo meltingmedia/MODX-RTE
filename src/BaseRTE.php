@@ -1,4 +1,4 @@
-<?php namespace meltingmedia\modx\rte;
+<?php namespace Melting\MODX\RTE;
 
 /**
  * Base class to extend to support additional RTEs
@@ -16,7 +16,7 @@ abstract class BaseRTE
     /**
      * A Loader instance
      *
-     * @var \meltingmedia\modx\rte\Loader
+     * @var \Melting\MODX\RTE\Loader
      */
     public $rte;
 

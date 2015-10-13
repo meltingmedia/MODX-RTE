@@ -1,6 +1,6 @@
-<?php namespace meltingmedia\modx\rte\Type;
+<?php namespace Melting\MODX\RTE\Type;
 
-use meltingmedia\modx\rte\BaseRTE;
+use Melting\MODX\RTE\BaseRTE;
 
 /**
  * TinyMCE support
