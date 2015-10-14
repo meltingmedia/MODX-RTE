@@ -3,9 +3,9 @@
 use Melting\MODX\RTE\BaseRTE;
 
 /**
- * Redactor support
+ * New TinyMCE support
  */
-class Redactor extends BaseRTE
+class TinyMCERTE extends BaseRTE
 {
     /**
      * @inherit

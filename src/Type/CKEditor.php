@@ -12,7 +12,7 @@ class CKEditor extends BaseRTE
      */
     public function getOptions()
     {
-        return array(
+        return [
 //            'baseHref' => $this->getSetting(''),
 //            'contentsCss' => $this->getSetting(''),
 //            'language' => $this->getSetting(''),
@@ -24,6 +24,6 @@ class CKEditor extends BaseRTE
 //            'keystrokes' => $this->getSetting(''),
             'startupMode' => $this->getSetting('startup_mode'),
             'undoStackSize' => $this->getSetting('undo_size'),
-        );
+        ];
     }
 }

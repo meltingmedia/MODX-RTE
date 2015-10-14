@@ -12,7 +12,7 @@ class TinyMCE extends BaseRTE
      */
     public function getOptions()
     {
-        return array(
+        return [
             // Test settings
 //            'tiny.custom_buttons1' => 'bold,italic,underline,sub,sup,separator,bullist,numlist,separator,formatselect',
 //            //'tiny.custom_buttons2' => $this->getSetting('custom_buttons2'),
@@ -54,6 +54,6 @@ class TinyMCE extends BaseRTE
             'tiny.theme_advanced_font_sizes' => $this->getSetting('theme_advanced_font_sizes'),
             'tiny.css_selectors' => $this->getSetting('css_selectors'),
 //            'use_browser' => $this->context->getOption('use_browser',true,$this->properties),
-        );
+        ];
     }
 }

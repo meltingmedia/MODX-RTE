@@ -2,6 +2,9 @@
 
 use modX;
 
+/**
+ * A service to help loading the appropriate for our RTE
+ */
 class Loader
 {
     /**
@@ -13,7 +16,7 @@ class Loader
     /**
      * @var array
      */
-    public $config = array();
+    public $config = [];
     /**
      * The active editor name
      *
@@ -21,15 +24,15 @@ class Loader
      */
     public $editor;
 
-    public function __construct(modX &$modx, array $options = array())
+    public function __construct(modX &$modx, array $options = [])
     {
         $this->modx =& $modx;
-        $this->config = array_merge(array(
+        $this->config = array_merge([
             'namespace' => null,
             'empty_setting_value' => 'none',
-        ), $options);
+        ], $options);
 
-        $this->editor = $this->modx->getOption('which_editor', null, null);
+        $this->editor = str_replace(' ', '', $this->modx->getOption('which_editor', null, null));
         if ($this->editor) {
             $this->load();
         }
@@ -42,9 +45,9 @@ class Loader
      */
     public function getSupportedRTEs()
     {
-        $supported = array();
+        $supported = [];
         /** @type \DirectoryIterator $file */
-        foreach (new \DirectoryIterator(dirname(__FILE__) . '/type/') as $file) {
+        foreach (new \DirectoryIterator(dirname(__FILE__) . '/Type/') as $file) {
             if ($file->isDot() || $file->isDir()) {
                 continue;
             }
@@ -92,7 +95,7 @@ class Loader
     {
         $cmpKey = $this->config['namespace'] . '.' . $key;
         $setting = $this->modx->getOption($cmpKey, null, $default);
-        // Check if string mean 'no value'
+        // Check if string means 'no value'
         if ($setting == $this->config['empty_setting_value']) {
             return '';
         }
@@ -116,6 +119,9 @@ class Loader
         switch ($this->editor) {
             case 'TinyMCE':
                 $defaultPrefix = 'tiny.';
+                break;
+            case 'TinyMCERTE':
+                $defaultPrefix = 'tinymcerte.';
                 break;
             case 'CKEditor':
                 $defaultPrefix = 'ckeditor.';
