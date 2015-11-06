@@ -1,7 +1,5 @@
 <?php namespace Melting\MODX\RTE\Type;
 
-use Melting\MODX\RTE\BaseRTE;
-
 /**
  * TinyMCE support
  */

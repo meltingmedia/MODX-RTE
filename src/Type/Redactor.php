@@ -33,9 +33,15 @@ Ext.onReady(function() {
         }
         Ext.each(elements, function(id) {
             var field = Ext.getCmp(id);
+            field.getRTE = function() {
+                return jQuery('#'+this.id);
+            };
             field.setValue = function(value) {
-                jQuery('#'+field.id).redactor('code.set', value);
+                this.getRTE().redactor('code.set', value);
                 return field.superclass().setValue.call(field, value);
+            };
+            field.focus = function() {
+                this.getRTE().redactor('focus.setEnd');
             };
         })
     };
