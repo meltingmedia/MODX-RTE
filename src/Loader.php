@@ -80,6 +80,7 @@ class Loader
                 }
                 $this->modx->controller->addHtml($result);
             }
+            $rte->loadOverrides();
         }
     }
 

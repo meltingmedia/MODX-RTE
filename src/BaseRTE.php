@@ -45,4 +45,14 @@ abstract class BaseRTE
      * @return array
      */
     abstract public function getOptions();
+
+    /**
+     * A method to override to tweak some RTEs, add some methods...
+     *
+     * @return void
+     */
+    public function loadOverrides()
+    {
+
+    }
 }

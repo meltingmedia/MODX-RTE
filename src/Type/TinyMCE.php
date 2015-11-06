@@ -5,7 +5,7 @@ use Melting\MODX\RTE\BaseRTE;
 /**
  * TinyMCE support
  */
-class TinyMCE extends BaseRTE
+class TinyMCE extends TinyMCERTE
 {
     /**
      * @inherit
