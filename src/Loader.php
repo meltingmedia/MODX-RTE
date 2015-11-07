@@ -32,6 +32,7 @@ class Loader
             'empty_setting_value' => 'none',
         ], $options);
 
+        // @TODO check first for $this->config['namespace'].which_editor to allow a different RTE per CMP
         $this->editor = str_replace(' ', '', $this->modx->getOption('which_editor', null, null));
         if ($this->editor) {
             $this->load();
@@ -85,7 +86,7 @@ class Loader
     }
 
     /**
-     * Convenient method to support RTE overrides for the component
+     * Convenient method to support RTE settings overrides for the component
      *
      * @param string $key The system setting key to grab, without any prefix
      * @param null $default An optional default value
@@ -97,7 +98,7 @@ class Loader
         $cmpKey = $this->config['namespace'] . '.' . $key;
         $setting = $this->modx->getOption($cmpKey, null, $default);
         // Check if string means 'no value'
-        if ($setting == $this->config['empty_setting_value']) {
+        if ($setting === $this->config['empty_setting_value']) {
             return '';
         }
         if (!$setting) {

@@ -19,6 +19,10 @@ abstract class BaseRTE
      * @var \Melting\MODX\RTE\Loader
      */
     public $rte;
+    /**
+     * @var null|string
+     */
+    protected $override = null;
 
     public function __construct(Loader $rte)
     {
@@ -47,12 +51,26 @@ abstract class BaseRTE
     abstract public function getOptions();
 
     /**
-     * A method to override to tweak some RTEs, add some methods...
+     * A method to load some overrides, when needed, to tweak some RTEs, add some methods...
      *
      * @return void
      */
     public function loadOverrides()
     {
-
+        if (!$this->override) {
+            return;
+        }
+        $override = dirname(__DIR__) ."/assets/{$this->override}";
+        if (!file_exists($override)) {
+            $this->modx->log(\modX::LOG_LEVEL_INFO, 'Not found');
+            return;
+        }
+        $data = file_get_contents($override);
+        $this->modx->controller->addHtml(<<<HTML
+<script>
+{$data}
+</script>
+HTML
+        );
     }
 }
