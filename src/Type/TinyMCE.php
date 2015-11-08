@@ -58,28 +58,22 @@ class TinyMCE extends TinyMCERTE
             $this->modx->setOption("tiny.{$k}", $this->getSetting($k));
         }
 
-        return [
+        $output = [
             'editor' => 'TinyMCE',
+            'cleanup' => $this->getSetting('true', true),
+            'cleanup_on_startup' => false,
         ];
-
-        // @TODO allow customization (those need to be passed to the OnRichTextEditorInit event
-        return [
-            // No system settings provided by the RTE
+        // Originally without system setting override
+        $settings = [
             'cleanup' => true,
             'cleanup_on_startup' => false,
             'compressor' => '',
-            //'content_css' => $this->context->getOption('editor_css_path'),
             'element_list' => '',
             'entities' => '',
             'execcommand_callback' => 'Tiny.onExecCommand',
             'file_browser_callback' => 'Tiny.loadBrowser',
             'force_p_newlines' => true,
             'force_br_newlines' => false,
-            'formats' => array(
-                'alignleft' => array('selector' => 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', 'classes' => 'justifyleft'),
-                'alignright' => array('selector' => 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', 'classes' => 'justifyright'),
-                'alignfull' => array('selector' => 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', 'classes' => 'justifyfull'),
-            ),
             'frontend' => false,
             'height' => '400px',
             'plugin_insertdate_dateFormat' => '%Y-%m-%d',
@@ -88,8 +82,6 @@ class TinyMCE extends TinyMCERTE
             'resizable' => true,
             'relative_urls' => true,
             'remove_script_host' => true,
-            //'resource_browser_path' => $this->modx->getOption('manager_url',null,MODX_MANAGER_URL).'controllers/browser/index.php?',
-            //'template_external_list_url' => $this->config['assetsUrl'].'template.list.php',
             'theme_advanced_disable' => '',
             'theme_advanced_resizing' => true,
             'theme_advanced_resize_horizontal' => true,
@@ -97,6 +89,21 @@ class TinyMCE extends TinyMCERTE
             'theme_advanced_toolbar_align' => 'left',
             'theme_advanced_toolbar_location' => 'top',
             'width' => '100%',
+        ];
+        foreach ($settings as $k => $default) {
+            $output[$k] = $this->getSetting($k, $default);
+        }
+
+        return $output;
+
+        // @TODO allow customization (those need to be passed to the OnRichTextEditorInit event)
+        return [
+            // No system settings provided by the RTE
+            'formats' => array(
+                'alignleft' => array('selector' => 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', 'classes' => 'justifyleft'),
+                'alignright' => array('selector' => 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', 'classes' => 'justifyright'),
+                'alignfull' => array('selector' => 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', 'classes' => 'justifyfull'),
+            ),
         ];
     }
 }

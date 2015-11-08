@@ -29,6 +29,10 @@ class Loader
      * @var array
      */
     protected $options = [];
+    /**
+     * @var string
+     */
+    protected $rtePrefix = '';
 
     public function __construct(modX &$modx, array $options = [])
     {
@@ -101,6 +105,7 @@ class Loader
         }
         $supported = $this->getSupportedRTEs();
         if (in_array($this->editor, $supported)) {
+            $this->rtePrefix = $this->getRTEPrefix();
             $editor = '\\Melting\\MODX\\RTE\\Type\\' . $this->editor;
             /** @var BaseRTE $rte */
             $rte = new $editor($this);
@@ -127,7 +132,7 @@ class Loader
      */
     public function getSetting($key, $default = null)
     {
-        $cmpKey = "{$this->config['namespace']}.{$this->getRTEPrefix()}{$key}";
+        $cmpKey = "{$this->config['namespace']}.{$this->rtePrefix}{$key}";
         $setting = $this->modx->getOption(
             $cmpKey,
             null,
@@ -153,7 +158,7 @@ class Loader
      */
     protected function getDefaultSetting($key)
     {
-        return $this->modx->getOption($this->getRTEPrefix() . $key);
+        return $this->modx->getOption($this->rtePrefix . $key);
     }
 
     /**
