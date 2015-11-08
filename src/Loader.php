@@ -23,6 +23,12 @@ class Loader
      * @var string|null
      */
     public $editor;
+    /**
+     * RTE options defined
+     *
+     * @var array
+     */
+    protected $options = [];
 
     public function __construct(modX &$modx, array $options = [])
     {
@@ -31,12 +37,6 @@ class Loader
             'namespace' => null,
             'empty_setting_value' => 'none',
         ], $options);
-
-        // We replace spaces here, mostly because of TinyMCE RTE, to get a "valid" handler class name
-        $this->editor = str_replace(' ', '', $this->getEditorName());
-        if ($this->editor) {
-            $this->load();
-        }
     }
 
     /**
@@ -47,7 +47,7 @@ class Loader
     protected function getEditorName()
     {
         // First check for an RTE defined on our particular "namespace"
-        $editor = $this->modx->getOption("{$this->config['namespace']}.which_editor", null, null);
+        $editor = $this->modx->getOption("{$this->config['namespace']}.which_editor", $this->options, null);
         if (!$editor || empty($editor)) {
             // No particular namespace editor found, let's fall back to the global one
             $editor = $this->modx->getOption('which_editor', null, null);
@@ -60,24 +60,28 @@ class Loader
     }
 
     /**
+     * Set RTE options
+     *
+     * @param array $options
+     */
+    public function setRTEOptions(array $options)
+    {
+        $this->options = $options;
+    }
+
+    /**
      * Iterate over supported RTEs classes
      *
      * @return array
      */
     public function getSupportedRTEs()
     {
-        $supported = [];
-        /** @type \DirectoryIterator $file */
-        foreach (new \DirectoryIterator(dirname(__FILE__) . '/Type/') as $file) {
-            if ($file->isDot() || $file->isDir()) {
-                continue;
-            }
-            $name = $file->getFilename();
-            $ext = pathinfo($name, PATHINFO_EXTENSION);
-            $supported[] = rtrim($name, '.' . $ext);
-        }
-
-        return $supported;
+        return [
+            'CKEditor',
+            'Redactor',
+            'TinyMCE',
+            'TinyMCERTE',
+        ];
     }
 
     /**
@@ -87,8 +91,12 @@ class Loader
      */
     public function load()
     {
+        $this->editor = str_replace(' ', '', $this->getEditorName());
+        if (!$this->editor || empty($this->editor)) {
+            return;
+        }
         $supported = $this->getSupportedRTEs();
-        if (!empty($this->editor) && in_array($this->editor, $supported)) {
+        if (in_array($this->editor, $supported)) {
             $editor = '\\Melting\\MODX\\RTE\\Type\\' . $this->editor;
             /** @var BaseRTE $rte */
             $rte = new $editor($this);
@@ -116,7 +124,7 @@ class Loader
     public function getSetting($key, $default = null)
     {
         $cmpKey = "{$this->config['namespace']}.{$this->getRTEPrefix()}{$key}";
-        $setting = $this->modx->getOption($cmpKey, null, $default);
+        $setting = $this->modx->getOption($cmpKey, $this->options, $default);
         // Check if string means 'no value'
         if ($setting === $this->config['empty_setting_value']) {
             return '';
