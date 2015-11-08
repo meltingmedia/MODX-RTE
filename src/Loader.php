@@ -16,13 +16,13 @@ class Loader
     /**
      * @var array
      */
-    public $config = [];
+    protected $config = [];
     /**
      * The active editor name
      *
      * @var string|null
      */
-    public $editor;
+    protected $editor;
     /**
      * RTE options defined
      *
@@ -78,7 +78,7 @@ class Loader
      *
      * @return array
      */
-    public function getSupportedRTEs()
+    protected function getSupportedRTEs()
     {
         return [
             'CKEditor',
@@ -151,7 +151,7 @@ class Loader
      *
      * @return mixed The setting value, if any
      */
-    public function getDefaultSetting($key)
+    protected function getDefaultSetting($key)
     {
         return $this->modx->getOption($this->getRTEPrefix() . $key);
     }

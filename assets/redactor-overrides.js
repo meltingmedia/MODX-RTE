@@ -21,6 +21,8 @@ Ext.onReady(function() {
                 return jQuery('#'+this.id);
             };
             /**
+             * Update the ExtJS "field" setValue to "sync" data in the RTE too
+             *
              * @param {*} value
              *
              * @returns {*}
@@ -29,6 +31,9 @@ Ext.onReady(function() {
                 this.getRTE().redactor('code.set', value);
                 return field.superclass().setValue.call(field, value);
             };
+            /**
+             * When trying to focus the original field, focus the RTE
+             */
             field.focus = function() {
                 this.getRTE().redactor('focus.setEnd');
             };
