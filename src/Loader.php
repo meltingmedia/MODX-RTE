@@ -124,7 +124,11 @@ class Loader
     public function getSetting($key, $default = null)
     {
         $cmpKey = "{$this->config['namespace']}.{$this->getRTEPrefix()}{$key}";
-        $setting = $this->modx->getOption($cmpKey, $this->options, $default);
+        $setting = $this->modx->getOption(
+            $cmpKey,
+            null,
+            $this->modx->getOption($cmpKey, $this->options, $default)
+        );
         // Check if string means 'no value'
         if ($setting === $this->config['empty_setting_value']) {
             return '';
