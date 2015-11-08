@@ -47,7 +47,11 @@ class Loader
     protected function getEditorName()
     {
         // First check for an RTE defined on our particular "namespace"
-        $editor = $this->modx->getOption("{$this->config['namespace']}.which_editor", $this->options, null);
+        $editor = $this->modx->getOption(
+            "{$this->config['namespace']}.which_editor",
+            null,
+            $this->modx->getOption("{$this->config['namespace']}.which_editor", $this->options, null)
+        );
         if (!$editor || empty($editor)) {
             // No particular namespace editor found, let's fall back to the global one
             $editor = $this->modx->getOption('which_editor', null, null);

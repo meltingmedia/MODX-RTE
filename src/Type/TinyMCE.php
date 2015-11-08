@@ -11,21 +11,19 @@ class TinyMCE extends TinyMCERTE
     public function getOptions()
     {
         return [
-            // Test settings
-//            'tiny.custom_buttons1' => 'bold,italic,underline,sub,sup,separator,bullist,numlist,separator,formatselect',
-//            //'tiny.custom_buttons2' => $this->getSetting('custom_buttons2'),
-//            'tiny.custom_buttons2' => 'code',
-//            'tiny.theme_advanced_blockformats' => 'p,h2,h3',
-//            'width' => '100%',
-//            'height' => false,
+            // RTE options without system setting
+            //'accessibility_warnings' => false,
+            'width' => '100%',
+            'height' => '100px',
 
-            'tiny.custom_buttons1' => $this->getSetting('custom_buttons1'),
-            'tiny.custom_buttons2' => $this->getSetting('custom_buttons2'),
-            'tiny.custom_buttons3' => $this->getSetting('custom_buttons3'),
-            'tiny.custom_buttons4' => $this->getSetting('custom_buttons4'),
-            'tiny.custom_buttons5' => $this->getSetting('custom_buttons5'),
-            'tiny.convert_fonts_to_spans' => $this->getSetting('convert_fonts_to_spans'),
-            'tiny.convert_newlines_to_brs' => $this->getSetting('convert_newlines_to_brs'),
+            // RTE settings with system settings to allow overrides
+            'buttons1' => $this->getSetting('custom_buttons1'),
+            'buttons2' => $this->getSetting('custom_buttons2'),
+            'buttons3' => $this->getSetting('custom_buttons3'),
+            'buttons4' => $this->getSetting('custom_buttons4'),
+            'buttons5' => $this->getSetting('custom_buttons5'),
+            'convert_fonts_to_spans' => $this->getSetting('convert_fonts_to_spans'),
+            'convert_newlines_to_brs' => $this->getSetting('convert_newlines_to_brs'),
 //            'css_path' => $this->context->getOption('editor_css_path','',$this->properties),
 //            'directionality' => $this->context->getOption('manager_direction','ltr',$this->properties),
             'tiny.element_format' => $this->getSetting('element_format'),
