@@ -14,8 +14,36 @@ class TinyMCERTE extends BaseRTE
      */
     public function getOptions()
     {
-        return [
+        $settings = [
+            'plugins',
+            'toolbar1',
+            'toolbar2',
+            'toolbar3',
+            //'modxlinkSearch',
+            //'language',
+            //'directionality',
+            'menubar',
+            'statusbar',
+            'image_advtab',
+            'paste_as_text',
+            'style_formats_merge',
+            'object_resizing',
+            'link_class_list',
+            'browser_spellcheck',
+            'content_css',
+            'image_class_list',
+            'skin',
 
+            'style_formats',
+            'external_config',
+            'object_resizing',
+        ];
+        foreach ($settings as $k) {
+            $this->modx->setOption("tinymcerte.{$k}", $this->getSetting($k));
+        }
+
+        return [
+            'editor' => 'TinyMCE RTE',
         ];
     }
 }

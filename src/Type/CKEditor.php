@@ -47,6 +47,8 @@ class CKEditor extends BaseRTE
 HTML
         );
 
-        return [];
+        return [
+            'editor' => 'CKEditor',
+        ];
     }
 }
