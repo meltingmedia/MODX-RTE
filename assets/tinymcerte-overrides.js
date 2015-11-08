@@ -3,6 +3,9 @@ Ext.onReady(function() {
     MODx.loadRTE = function(id) {
         original.call(this, id);
         var field = Ext.getCmp(id);
+        if (!field) {
+            return;
+        }
         // RTE might not be loaded yet, let's wait a little bit
         var setListener = function() {
             var editor = tinymce.get(id);
@@ -10,6 +13,7 @@ Ext.onReady(function() {
                 return;
             }
             field.editor = editor;
+            field.rteLoaded = true;
             // @TODO find a more clever way handle this, ie. only "sync" when the user stops typing
             editor.on('change', editor.save, editor);
         };
@@ -43,7 +47,14 @@ Ext.onReady(function() {
         // No method to unload an RTE instance, let's create it
         MODx.unloadRTE = function(id) {
             tinymce.get(id).remove();
-            // @TODO restore overridden methods
+            var field = Ext.getCmp(id);
+            if (!field) {
+                return;
+            }
+            field.rteLoaded = false;
+            field.focus = Ext.form.TextArea.prototype.focus;
+            field.setValue = Ext.form.TextArea.prototype.setValue;
+            field.getRTE = function() {};
         }
     }
 });

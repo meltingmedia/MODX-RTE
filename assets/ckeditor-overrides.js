@@ -20,6 +20,10 @@ Ext.onReady(function() {
         loadRTE.call(this, id);
 
         var field = Ext.getCmp(id);
+        if (!field) {
+            return;
+        }
+        field.rteLoaded = true;
         /**
          * Convenient method to retrieve the editor instance from the ExtJS field
          *
@@ -34,5 +38,20 @@ Ext.onReady(function() {
         field.focus = function() {
             this.getRTE().editor.focus();
         };
+    };
+
+    // Override the unloadRTE method so we could remove our stuff (extra method)
+    var unloadRTE = MODx.unloadRTE.prototype.constructor;
+    MODx.unloadRTE = function(id) {
+        unloadRTE.call(this, id);
+
+        var field = Ext.getCmp(id);
+        if (!field) {
+            return;
+        }
+        field.rteLoaded = false;
+        field.focus = Ext.form.TextArea.prototype.focus;
+        field.setValue = Ext.form.TextArea.prototype.setValue;
+        field.getRTE = function() {};
     };
 });

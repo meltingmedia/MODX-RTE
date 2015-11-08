@@ -10,6 +10,10 @@ Ext.onReady(function() {
         }
         Ext.each(elements, function(id) {
             var field = Ext.getCmp(id);
+            if (!field) {
+                return;
+            }
+            field.rteLoaded = true;
             /**
              * @returns {*}
              */
@@ -40,10 +44,15 @@ Ext.onReady(function() {
             Ext.each(elements, function(id) {
                 // Destroy the RTE "instance"
                 jQuery('#' + id).redactor('core.destroy');
-                // @TODO restore overridden methods
-                //var field = Ext.getCmp(id);
-                //field.focus = field.prototype.focus;
-                //field.setValue = field.prototype.setValue;
+
+                var field = Ext.getCmp(id);
+                if (!field) {
+                    return;
+                }
+                field.rteLoaded = false;
+                field.focus = Ext.form.TextArea.prototype.focus;
+                field.setValue = Ext.form.TextArea.prototype.setValue;
+                field.getRTE = function() {};
             });
         }
     }
