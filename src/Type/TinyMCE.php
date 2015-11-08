@@ -60,8 +60,6 @@ class TinyMCE extends TinyMCERTE
 
         $output = [
             'editor' => 'TinyMCE',
-            'cleanup' => $this->getSetting('true', true),
-            'cleanup_on_startup' => false,
         ];
         // Originally without system setting override
         $settings = [
@@ -96,7 +94,7 @@ class TinyMCE extends TinyMCERTE
 
         return $output;
 
-        // @TODO allow customization (those need to be passed to the OnRichTextEditorInit event)
+        // @TODO
         return [
             // No system settings provided by the RTE
             'formats' => array(
