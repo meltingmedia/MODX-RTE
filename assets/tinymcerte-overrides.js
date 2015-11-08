@@ -10,6 +10,7 @@ Ext.onReady(function() {
                 return;
             }
             field.editor = editor;
+            // @TODO find a more clever way handle this, ie. only "sync" when the user stops typing
             editor.on('change', editor.save, editor);
         };
         Ext.defer(setListener, 250);

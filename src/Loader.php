@@ -95,7 +95,7 @@ class Loader
      */
     public function getSetting($key, $default = null)
     {
-        $cmpKey = $this->config['namespace'] . '.' . $key;
+        $cmpKey = "{$this->config['namespace']}.{$this->getRTEPrefix()}{$key}";
         $setting = $this->modx->getOption($cmpKey, null, $default);
         // Check if string means 'no value'
         if ($setting === $this->config['empty_setting_value']) {
@@ -117,7 +117,17 @@ class Loader
      */
     public function getDefaultSetting($key)
     {
-        $defaultPrefix = null;
+        return $this->modx->getOption($this->getRTEPrefix() . $key);
+    }
+
+    /**
+     * Get the RTE setting keys prefix
+     *
+     * @return string
+     */
+    protected function getRTEPrefix()
+    {
+        $defaultPrefix = '';
         switch ($this->editor) {
             case 'TinyMCE':
                 $defaultPrefix = 'tiny.';
@@ -133,6 +143,6 @@ class Loader
                 break;
         }
 
-        return $this->modx->getOption($defaultPrefix . $key);
+        return $defaultPrefix;
     }
 }

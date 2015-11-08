@@ -8,6 +8,7 @@ Ext.onReady(function() {
             ,editor = field.editor;
 
         // Make sure the original element (textarea) content/value stays in sync with the RTE
+        // @TODO find a more clever way handle this, ie. only "sync" when the user stops typing
         editor.on('change', editor.updateElement, editor);
 
         return field;
