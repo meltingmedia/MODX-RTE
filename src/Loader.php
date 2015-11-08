@@ -32,11 +32,31 @@ class Loader
             'empty_setting_value' => 'none',
         ], $options);
 
-        // @TODO check first for $this->config['namespace'].which_editor to allow a different RTE per CMP
-        $this->editor = str_replace(' ', '', $this->modx->getOption('which_editor', null, null));
+        // We replace spaces here, mostly because of TinyMCE RTE, to get a "valid" handler class name
+        $this->editor = str_replace(' ', '', $this->getEditorName());
         if ($this->editor) {
             $this->load();
         }
+    }
+
+    /**
+     * Get the configured editor name
+     *
+     * @return string
+     */
+    protected function getEditorName()
+    {
+        // First check for an RTE defined on our particular "namespace"
+        $editor = $this->modx->getOption("{$this->config['namespace']}.which_editor", null, null);
+        if (!$editor || empty($editor)) {
+            // No particular namespace editor found, let's fall back to the global one
+            $editor = $this->modx->getOption('which_editor', null, null);
+        } else {
+            // We have an RTE defined, which is not the "default" system wide one (which_editor setting)
+            $this->modx->setOption('which_editor', $editor);
+        }
+
+        return $editor;
     }
 
     /**
