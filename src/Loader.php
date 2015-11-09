@@ -3,7 +3,7 @@
 use modX;
 
 /**
- * A service to help loading the appropriate for our RTE
+ * A service to help load the appropriate configuration/assets for our RTE
  */
 class Loader
 {
@@ -30,6 +30,8 @@ class Loader
      */
     protected $options = [];
     /**
+     * The prefix used in system settings keys, ie. "tiny.", "redactor."
+     *
      * @var string
      */
     protected $rtePrefix = '';
@@ -60,7 +62,7 @@ class Loader
             // No particular namespace editor found, let's fall back to the global one
             $editor = $this->modx->getOption('which_editor', null, null);
         } else {
-            // We have an RTE defined, which is not the "default" system wide one (which_editor setting)
+            // We have an RTE defined, which might not be the "default" system wide one (which_editor setting)
             $this->modx->setOption('which_editor', $editor);
         }
 
@@ -78,7 +80,7 @@ class Loader
     }
 
     /**
-     * Iterate over supported RTEs classes
+     * List supported RTEs classes
      *
      * @return array
      */
@@ -93,7 +95,7 @@ class Loader
     }
 
     /**
-     * Instantiate the appropriate RTE class
+     * Instantiate the appropriate RTE class/handler
      *
      * @return void
      */

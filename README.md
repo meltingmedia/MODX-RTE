@@ -5,7 +5,7 @@
 The purpose of this library is to help load RTEs in your Custom Manager Page, with the ability to switch from any RTE 
 to another without code change.
 
-It also ships so "enhancements" to existing RTEs, like :
+It also ships some "enhancements" to existing RTEs, like :
 
 * being able to set a value on the original field while keeping the RTE in sync (the RTE being some kind of "overlay" 
   to the original field)
@@ -27,8 +27,8 @@ The easiest way to install the library is to make use of Composer :
     {
         "repositories": [
             {
-                "type": "composer",
-                "url": "https://composer.melting-media.com"
+                "type": "vcs",
+                "url": "https://github.com/meltingmedia/MODX-RTE.git"
             }
         ],
         "require": {
@@ -64,3 +64,13 @@ Just create a setting with key `{$namespace}.{$original_rte_setting_key}` to ove
 If `{$namespace}.{$original_rte_setting_key}` setting is not found, it will fall back to the `original_rte_setting_key` value.
 
 ie. TinyMCE `tiny.css_selectors` setting could be overridden by creating a `some-namespace.tiny.css_selectors` setting.
+
+
+## Changes
+
+See [change log](CHANGELOG.md).
+
+
+## License
+
+MODX RTE is licensed under the [MIT license](LICENSE).
