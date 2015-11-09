@@ -36,7 +36,7 @@ Ext.onReady(function() {
              * When trying to focus the original field, focus the RTE
              */
             field.focus = function() {
-                this.getRTE().redactor('focus.setEnd');
+                this.getRTE().redactor('focus.setStart');
             };
             field.fireEvent('rteLoaded', field);
         })
