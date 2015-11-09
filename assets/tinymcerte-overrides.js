@@ -6,6 +6,7 @@ Ext.onReady(function() {
         if (!field) {
             return;
         }
+        field.addEvents({rteLoaded: true, rteUnloaded: true});
         // RTE might not be loaded yet, let's wait a little bit
         var setListener = function() {
             var editor = tinymce.get(id);
@@ -14,10 +15,10 @@ Ext.onReady(function() {
             }
             field.editor = editor;
             field.rteLoaded = true;
+            field.fireEvent('rteLoaded', field);
             // @TODO find a more clever way handle this, ie. only "sync" when the user stops typing
             editor.on('change', editor.save, editor);
         };
-        Ext.defer(setListener, 250);
         /**
          * @returns {tinymce.Editor}
          */
@@ -40,7 +41,8 @@ Ext.onReady(function() {
          */
         field.focus = function() {
             this.getRTE().focus(false);
-        }
+        };
+        Ext.defer(setListener, 250);
     };
 
     if (!MODx.unloadRTE) {
@@ -55,6 +57,7 @@ Ext.onReady(function() {
             field.focus = Ext.form.TextArea.prototype.focus;
             field.setValue = Ext.form.TextArea.prototype.setValue;
             field.getRTE = function() {};
+            field.fireEvent('rteUnloaded', field);
         }
     }
 });

@@ -13,6 +13,7 @@ Ext.onReady(function() {
             if (!field) {
                 return;
             }
+            field.addEvents({rteLoaded: true, rteUnloaded: true});
             field.rteLoaded = true;
             /**
              * @returns {*}
@@ -37,6 +38,7 @@ Ext.onReady(function() {
             field.focus = function() {
                 this.getRTE().redactor('focus.setEnd');
             };
+            field.fireEvent('rteLoaded', field);
         })
     };
 
@@ -58,6 +60,7 @@ Ext.onReady(function() {
                 field.focus = Ext.form.TextArea.prototype.focus;
                 field.setValue = Ext.form.TextArea.prototype.setValue;
                 field.getRTE = function() {};
+                field.fireEvent('rteUnloaded', field);
             });
         }
     }
