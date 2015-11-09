@@ -12,8 +12,13 @@
             "role": "Developer"
         }
     ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.2.0-alpha"
+        }
+    },
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4"
     },
     "autoload": {
         "psr-4": {
