@@ -14,6 +14,17 @@ It also ships some "enhancements" to existing RTEs, like :
   overlay
 
 
+## What problem does this library try to solve ?
+
+In its current state, MODX Revolution CMS supports RTEs. RTE configuration is global, meaning each RTE instance will 
+have the same configuration (being when editing a resource, or being on a Custom Manager Page).
+
+Sometimes, this is not a desired behavior : you might want to prevent adding images in your custom content, while 
+allowing them when editing resources (or the other way around).
+
+This is were this library comes in!
+
+
 ## Requirements
 
 * MODX Revolution
