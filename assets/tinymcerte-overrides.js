@@ -10,14 +10,17 @@ Ext.onReady(function() {
         // RTE might not be loaded yet, let's wait a little bit
         var setListener = function() {
             var editor = tinymce.get(id);
-            if (!editor || !editor.on) {
+            if (!editor) {
                 return;
             }
             field.editor = editor;
             field.rteLoaded = true;
             field.fireEvent('rteLoaded', field);
-            // @TODO find a more clever way handle this, ie. only "sync" when the user stops typing
-            editor.on('change', editor.save, editor);
+            if (editor.on) {
+                // Only for TinyMCE RTE (v4)
+                // @TODO find a more clever way handle this, ie. only "sync" when the user stops typing
+                editor.on('change', editor.save, editor);
+            }
         };
         /**
          * @returns {tinymce.Editor}
