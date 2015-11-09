@@ -2,8 +2,6 @@
 
 /**
  * Base class to extend to support additional RTEs
- *
- * @package meltingmedia\rte
  */
 abstract class BaseRTE
 {
@@ -12,13 +10,13 @@ abstract class BaseRTE
      *
      * @var \modX
      */
-    public $modx;
+    protected $modx;
     /**
      * A Loader instance
      *
      * @var \Melting\MODX\RTE\Loader
      */
-    public $rte;
+    protected $rte;
     /**
      * @var null|string
      */
@@ -26,8 +24,8 @@ abstract class BaseRTE
 
     public function __construct(Loader $rte)
     {
-        $this->rte =& $rte;
-        $this->modx =& $this->rte->modx;
+        $this->rte = $rte;
+        $this->modx = $this->rte->modx;
     }
 
     /**
@@ -45,6 +43,7 @@ abstract class BaseRTE
 
     /**
      * Implement this method to return an array of configuration for the current RTE
+     * The returned array will be passed to OnRichTextEditorInit event
      *
      * @return array
      */
@@ -62,7 +61,7 @@ abstract class BaseRTE
         }
         $override = dirname(__DIR__) ."/assets/{$this->override}";
         if (!file_exists($override)) {
-            $this->modx->log(\modX::LOG_LEVEL_INFO, 'Not found');
+            $this->modx->log(\modX::LOG_LEVEL_INFO, __METHOD__ . ' override not found : '.$override);
             return;
         }
         $data = file_get_contents($override);

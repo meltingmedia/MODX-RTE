@@ -20,6 +20,25 @@ It also ships so "enhancements" to existing RTEs, like :
 * PHP 5.4+
 
 
+## Installation
+
+The easiest way to install the library is to make use of Composer :
+
+    {
+        "repositories": [
+            {
+                "type": "composer",
+                "url": "https://composer.melting-media.com"
+            }
+        ],
+        "require": {
+            "melting/modx/rte": "^0.2"
+        },
+        "minimum-stability": "dev"
+    }
+
+
+
 ## Usage
 
 In your manager controller, simply run

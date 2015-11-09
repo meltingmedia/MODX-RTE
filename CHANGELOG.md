@@ -3,7 +3,7 @@
 Changes for MODX RTE library
 
 
-## [unreleased] (v0.2) xx/11/2015
+## [unreleased] xx/11/2015
 
 * Added `rteLoaded` & `rteUnloaded` events to ExtJS fields
 * [Breaking change] It's now possible to set RTE options in the loader (using `setRTEOptions` method), meaning the

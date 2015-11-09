@@ -34,9 +34,9 @@ class Loader
      */
     protected $rtePrefix = '';
 
-    public function __construct(modX &$modx, array $options = [])
+    public function __construct(modX $modx, array $options = [])
     {
-        $this->modx =& $modx;
+        $this->modx = $modx;
         $this->config = array_merge([
             'namespace' => null,
             'empty_setting_value' => 'none',
