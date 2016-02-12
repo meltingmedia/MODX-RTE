@@ -38,6 +38,25 @@ Ext.onReady(function() {
             field.focus = function() {
                 this.getRTE().redactor('focus.setStart');
             };
+            // Some hack to handle having the RTE with a fixed height (no auto grow)
+            if (field.height) {
+                // Redactor RTE container
+                var app = Ext.get(field.getRTE()[0].parentNode)
+                    // RTE toolbar (if any)
+                    ,toolbar = app.first('.redactor-toolbar')
+                    // Editor content
+                    ,editor = app.first('.redactor-editor');
+
+                if (editor) {
+                    var height = field.height;
+                    if (toolbar) {
+                        // A toolbar has been found, let's remove its height
+                        height = height - toolbar.getHeight();
+                    }
+                    // Set the content editor height to the expected size!
+                    editor.setStyle('height', height + 'px');
+                }
+            }
             field.fireEvent('rteLoaded', field);
         })
     };

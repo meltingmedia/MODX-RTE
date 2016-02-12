@@ -5,6 +5,7 @@ Changes for MODX RTE library
 
 ## [unreleased] xx/11/2015
 
+* Allow Redactor RTE to have a fixed height (no auto grow)
 * Added `rteLoaded` & `rteUnloaded` events to ExtJS fields
 * [Breaking change] It's now possible to set RTE options in the loader (using `setRTEOptions` method), meaning the
   loader no more automatically "loads" the RTE, making the `load` method having to be manually called
