@@ -1,4 +1,4 @@
-Ext.onReady(function() {
+(function() {
     // Force the original textarea value to be updated when the editor content changes
     var original = MODx.ux.CKEditor.replaceComponent.prototype.constructor;
     MODx.ux.CKEditor.replaceComponent = function(textArea) {
@@ -57,4 +57,5 @@ Ext.onReady(function() {
         field.getRTE = function() {};
         field.fireEvent('rteUnloaded', field);
     };
-});
+    MODx.rte = original;
+})

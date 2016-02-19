@@ -1,4 +1,4 @@
-Ext.onReady(function() {
+(function() {
     var original = MODx.loadRTE.prototype.constructor;
     MODx.loadRTE = function(id) {
         original.call(this, id);
@@ -63,4 +63,5 @@ Ext.onReady(function() {
             field.fireEvent('rteUnloaded', field);
         }
     }
-});
+    MODx.rte = original;
+})

@@ -1,4 +1,4 @@
-Ext.onReady(function() {
+(function() {
     var original = MODx.loadRTE.prototype.constructor;
     /**
      * @param {String|Array} elements
@@ -39,22 +39,29 @@ Ext.onReady(function() {
                 this.getRTE().redactor('focus.setStart');
             };
             // Some hack to handle having the RTE with a fixed height (no auto grow)
-            if (field.height) {
+            if (field.height || field.height) {
                 // Redactor RTE container
                 var app = Ext.get(field.getRTE()[0].parentNode)
-                    // RTE toolbar (if any)
+                // RTE toolbar (if any)
                     ,toolbar = app.first('.redactor-toolbar')
-                    // Editor content
+                // Editor content
                     ,editor = app.first('.redactor-editor');
 
+                console.log('setting RTE height', editor);
                 if (editor) {
-                    var height = field.height;
-                    if (toolbar) {
-                        // A toolbar has been found, let's remove its height
-                        height = height - toolbar.getHeight();
+                    if (field.height) {
+                        var height = field.height;
+                        if (toolbar) {
+                            // A toolbar has been found, let's remove its height
+                            height = height - toolbar.getHeight();
+                        }
+                        // Set the content editor height to the expected size!
+                        editor.setStyle('height', height + 'px');
+                        editor.setStyle('min-height', 0);
                     }
-                    // Set the content editor height to the expected size!
-                    editor.setStyle('height', height + 'px');
+                    if (field.width) {
+                        app.setStyle('width', field.width +'px');
+                    }
                 }
             }
             field.fireEvent('rteLoaded', field);
@@ -83,4 +90,5 @@ Ext.onReady(function() {
             });
         }
     }
-});
+    MODx.rte = original;
+})

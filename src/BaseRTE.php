@@ -67,7 +67,27 @@ abstract class BaseRTE
         $data = file_get_contents($override);
         $this->modx->controller->addHtml(<<<HTML
 <script>
-{$data}
+var loadOverrides = function(callback, attempts) {
+    var maxAttempts = 10;
+    if (!attempts) {
+        attempts = 0;
+    }
+    if (MODx.loadRTE) {
+        // RTE implementation of MODx.loadRTE is available, we can now safely apply our overrides
+        callback();
+    } else {
+        if (attempts >= maxAttempts) {
+            console.log('Unable to find MODx.loadRTE, skipping the tries');
+            return false;
+        }
+        attempts++;
+        //console.log('deferred next attempt', attempts+'/'+ maxAttempts);
+        setTimeout(function() {
+            loadOverrides(callback, attempts);
+        }, 100);
+    }
+};
+loadOverrides({$data});
 </script>
 HTML
         );
