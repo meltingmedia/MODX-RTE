@@ -42,12 +42,11 @@
             if (field.height || field.height) {
                 // Redactor RTE container
                 var app = Ext.get(field.getRTE()[0].parentNode)
-                // RTE toolbar (if any)
+                    // RTE toolbar (if any)
                     ,toolbar = app.first('.redactor-toolbar')
-                // Editor content
+                    // Editor content
                     ,editor = app.first('.redactor-editor');
 
-                console.log('setting RTE height', editor);
                 if (editor) {
                     if (field.height) {
                         var height = field.height;
