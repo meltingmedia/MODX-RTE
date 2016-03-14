@@ -39,7 +39,7 @@
                 this.getRTE().redactor('focus.setStart');
             };
             // Some hack to handle having the RTE with a fixed height (no auto grow)
-            if (field.height || field.height) {
+            if (field.height || field.width) {
                 // Redactor RTE container
                 var app = Ext.get(field.getRTE()[0].parentNode)
                     // RTE toolbar (if any)
