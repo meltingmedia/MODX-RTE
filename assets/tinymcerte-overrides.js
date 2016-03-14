@@ -36,6 +36,14 @@
          * @returns {*}
          */
         field.setValue = function(value) {
+            if (!this.rteLoaded) {
+                this.on('rteLoaded', function() {
+                    this.setValue(value);
+                }, this, {
+                    single: true
+                });
+                return;
+            }
             this.getRTE().setContent(value);
             return field.superclass().setValue.call(field, value);
         };
@@ -43,6 +51,12 @@
          * When trying to focus the original field, focus the RTE
          */
         field.focus = function() {
+            if (!this.rteLoaded) {
+                this.on('rteLoaded', this.focus, this, {
+                    single: true
+                });
+                return;
+            }
             this.getRTE().focus(false);
         };
         Ext.defer(setListener, 250);
