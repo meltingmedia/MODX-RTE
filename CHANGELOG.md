@@ -3,7 +3,7 @@
 Changes for MODX RTE library
 
 
-## [unreleased] xx/11/2015
+## [unreleased] - xx/xx/2016
 
 * Wrapped the overrides in a function to make sure `MODx.loadRTE` (RTE implementations) is available
 * Allow Redactor RTE to have a fixed width

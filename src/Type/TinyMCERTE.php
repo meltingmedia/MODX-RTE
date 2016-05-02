@@ -39,6 +39,8 @@ class TinyMCERTE extends BaseRTE
             'object_resizing',
             
             'relative_urls',
+            'convert_urls',
+            'remove_script_host',
         ];
         foreach ($settings as $k) {
             $this->modx->setOption("tinymcerte.{$k}", $this->getSetting($k));
