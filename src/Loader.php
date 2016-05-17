@@ -80,6 +80,14 @@ class Loader
     }
 
     /**
+     * @return array
+     */
+    public function getRTEOptions()
+    {
+        return $this->options;
+    }
+
+    /**
      * List supported RTEs classes
      *
      * @return array

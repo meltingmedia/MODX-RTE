@@ -10,6 +10,17 @@ class TinyMCE extends TinyMCERTE
      */
     public function getOptions()
     {
+        $settings = $this->rte->getRTEOptions();
+        $output = [];
+        foreach ($settings as $k) {
+            $value = $this->getSetting($k);
+            $this->modx->setOption("tiny.{$k}", $value);
+            $output[$k] = $value;
+        }
+
+        return $output;
+
+
         $settings = [
             'custom_buttons1',
             'custom_buttons2',

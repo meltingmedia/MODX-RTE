@@ -14,28 +14,11 @@ class CKEditor extends BaseRTE
      */
     public function getOptions()
     {
-        // Pool of system settings handled to "craft" the RTE
-        $options = [
-            'skin',
-            'ui_color',
-            'toolbar',
-            'toolbar_groups',
-            'format_tags',
-            'extra_plugins',
-            'remove_plugins',
-            'styles_set',
-            'startup_mode',
-            'undo_size',
-            'autocorrect_dash',
-            'autocorrect_double_quotes',
-            'autocorrect_single_quotes',
-            'object_resizing',
-            'native_spellchecker',
-        ];
+        $settings = $this->rte->getRTEOptions();
 
         $overrides = [];
         // Since the implementation is looking inside MODx.config JS array, let's override it
-        foreach ($options as $k) {
+        foreach ($settings as $k) {
             $v = $this->getSetting($k);
             $overrides[] = "MODx.config['ckeditor.{$k}'] = '{$v}';";
         }
