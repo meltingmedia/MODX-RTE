@@ -45,7 +45,7 @@ abstract class BaseRTE
      * Implement this method to return an array of configuration for the current RTE
      * The returned array will be passed to OnRichTextEditorInit event
      *
-     * @return array
+     * @return array|void
      */
     abstract public function getOptions();
 

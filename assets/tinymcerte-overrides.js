@@ -7,10 +7,37 @@
             return;
         }
         field.addEvents({rteLoaded: true, rteUnloaded: true});
+        // @TODO check for TinyMCE 3
+        if (tinymce.onAddEditor) {
+            // TinyMCE v3
+            tinymce.onAddEditor().add(function(mgr, editor) {
+                editor.onInit.add(function() {
+                    setListener(0);
+                });
+            })
+        } else {
+            // TinyMCE v4
+            tinymce.on('addEditor',function(vent) {
+                vent.editor.on('init', function() {
+                    setListener(0);
+                });
+            });
+        }
         // RTE might not be loaded yet, let's wait a little bit
-        var setListener = function() {
+        var setListener = function(attempts) {
+            if (!attempts) {
+                attempts = 0;
+            }
+            if (attempts > 10) {
+                console.error('Stopping trying to set the listener since we were not able to find the editor');
+                return;
+            }
+            attempts++;
             var editor = tinymce.get(id);
             if (!editor) {
+                Ext.defer(function() {
+                    setListener(attempts);
+                }, 250);
                 return;
             }
             field.editor = editor;
@@ -59,7 +86,6 @@
             }
             this.getRTE().focus(false);
         };
-        Ext.defer(setListener, 250);
     };
 
     if (!MODx.unloadRTE) {
