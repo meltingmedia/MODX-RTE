@@ -21,6 +21,12 @@ abstract class BaseRTE
      * @var null|string
      */
     protected $override = null;
+    /**
+     * The RTE MODX namespace
+     *
+     * @var string
+     */
+    protected $prefix = '';
 
     public function __construct(Loader $rte)
     {
@@ -42,12 +48,47 @@ abstract class BaseRTE
     }
 
     /**
+     * @param string $key
+     *
+     * @return string
+     */
+    protected function getRTEKey($key)
+    {
+        $search = "{$this->rte->config['namespace']}.{$this->prefix}.";
+
+        return str_replace($search, '', $key);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    protected function isValidSetting($key)
+    {
+        return strpos($key, "{$this->rte->config['namespace']}.{$this->prefix}.") === 0;
+    }
+
+    /**
      * Implement this method to return an array of configuration for the current RTE
      * The returned array will be passed to OnRichTextEditorInit event
      *
      * @return array|void
      */
-    abstract public function getOptions();
+    public function getOptions()
+    {
+        $settings = $this->rte->getRTEOptions();
+        $options = [];
+        foreach ($settings as $k => $value) {
+            if ($this->isValidSetting($k)) {
+                $key = $this->getRTEKey($k);
+                $this->modx->setOption("{$this->prefix}.{$k}", $value);
+                $options[$key] = $value;
+            }
+        }
+
+        return $options;
+    }
 
     /**
      * A method to load some overrides, when needed, to tweak some RTEs, add some methods...
@@ -67,27 +108,9 @@ abstract class BaseRTE
         $data = file_get_contents($override);
         $this->modx->controller->addHtml(<<<HTML
 <script>
-var loadOverrides = function(callback, attempts) {
-    var maxAttempts = 10;
-    if (!attempts) {
-        attempts = 0;
-    }
-    if (MODx.loadRTE) {
-        // RTE implementation of MODx.loadRTE is available, we can now safely apply our overrides
-        callback();
-    } else {
-        if (attempts >= maxAttempts) {
-            console.log('Unable to find MODx.loadRTE, skipping the tries');
-            return false;
-        }
-        attempts++;
-        //console.log('deferred next attempt', attempts+'/'+ maxAttempts);
-        setTimeout(function() {
-            loadOverrides(callback, attempts);
-        }, 100);
-    }
-};
-loadOverrides({$data});
+Ext.onReady(function() {
+    RTE.loadOverrides({$data});
+});
 </script>
 HTML
         );

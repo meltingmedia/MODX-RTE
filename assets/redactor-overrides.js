@@ -1,10 +1,10 @@
 (function() {
-    var original = MODx.loadRTE.prototype.constructor;
+    RTE.setOriginalMethod('redactor', MODx.loadRTE.prototype.constructor);
     /**
      * @param {String|Array} elements
      */
     MODx.loadRTE = function(elements) {
-        original.call(this, elements);
+        RTE.callOriginalMethod('ckeditor', elements);
         if (!Ext.isArray(elements)) {
             elements = [elements];
         }
@@ -13,7 +13,10 @@
             if (!field) {
                 return;
             }
-            field.addEvents({rteLoaded: true, rteUnloaded: true});
+            field.addEvents({
+                rteLoaded: true
+                ,rteUnloaded: true
+            });
             field.rteLoaded = true;
             /**
              * @returns {*}
@@ -89,5 +92,4 @@
             });
         }
     }
-    MODx.rte = original;
 })

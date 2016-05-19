@@ -16,7 +16,7 @@ class Loader
     /**
      * @var array
      */
-    protected $config = [];
+    public $config = [];
     /**
      * The active editor name
      *
@@ -35,6 +35,12 @@ class Loader
      * @var string
      */
     protected $rtePrefix = '';
+    /**
+     * Store per field options/configuration
+     *
+     * @var array
+     */
+    protected $fields = [];
 
     public function __construct(modX $modx, array $options = [])
     {
@@ -103,6 +109,17 @@ class Loader
     }
 
     /**
+     * Set a particular configuration to the given field
+     * 
+     * @param string $fieldID
+     * @param array $options
+     */
+    public function setFieldOptions($fieldID, array $options)
+    {
+        $this->fields[$fieldID] = $options;
+    }
+
+    /**
      * Instantiate the appropriate RTE class/handler
      *
      * @return void
@@ -120,6 +137,24 @@ class Loader
             /** @var BaseRTE $rte */
             $rte = new $editor($this);
             $options = $rte->getOptions();
+            if (!is_array($options)) {
+                $options = [];
+            }
+
+            $fields = '';
+            foreach ($this->fields as $id => $o) {
+                $o = json_encode($o);
+                $fields .= "RTE.setFieldConfig('{$id}', {$o});";
+            }
+
+            $class = file_get_contents(dirname(__DIR__) ."/assets/rte.js");
+            $this->modx->controller->addHtml(<<<HTML
+<script>
+{$class}
+{$fields}
+</script>
+HTML
+            );
 
             $result = $this->modx->invokeEvent('OnRichTextEditorInit', $options);
             if (!empty($result)) {

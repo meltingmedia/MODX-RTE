@@ -8,6 +8,7 @@ use Melting\MODX\RTE\BaseRTE;
 class CKEditor extends BaseRTE
 {
     protected $override = 'ckeditor-overrides.js';
+    protected $prefix = 'ckeditor';
 
     /**
      * @inherit
@@ -15,12 +16,16 @@ class CKEditor extends BaseRTE
     public function getOptions()
     {
         $settings = $this->rte->getRTEOptions();
-
+        $options = [];
         $overrides = [];
         // Since the implementation is looking inside MODx.config JS array, let's override it
-        foreach ($settings as $k) {
-            $v = $this->getSetting($k);
-            $overrides[] = "MODx.config['ckeditor.{$k}'] = '{$v}';";
+        foreach ($settings as $k => $value) {
+            if ($this->isValidSetting($k)) {
+                $key = $this->getRTEKey($k);
+                $this->modx->setOption("{$this->prefix}.{$k}", $value);
+                $options[$key] = $value;
+                $overrides[] = "MODx.config['{$this->prefix}.{$k}'] = '{$value}';";
+            }
         }
         $overrides = implode("\n", $overrides);
         $this->modx->controller->addHtml(<<<HTML
@@ -30,8 +35,6 @@ class CKEditor extends BaseRTE
 HTML
         );
 
-        return [
-            'editor' => 'CKEditor',
-        ];
+        return $options;
     }
 }

@@ -1,16 +1,23 @@
 (function() {
-    var original = MODx.loadRTE.prototype.constructor;
+    var rte = tinymce.onAddEditor ? 'tinymce' : 'tinymcerte';
+    RTE.setOriginalMethod(rte, MODx.loadRTE.prototype.constructor);
+
     MODx.loadRTE = function(id) {
-        original.call(this, id);
         var field = Ext.getCmp(id);
         if (!field) {
+            console.error('Field', id, 'not found');
             return;
         }
-        field.addEvents({rteLoaded: true, rteUnloaded: true});
-        // @TODO check for TinyMCE 3
-        if (tinymce.onAddEditor) {
+        RTE.callOriginalMethod(rte, id);
+        field.addEvents({
+            rteLoaded: true
+            ,rteUnloaded: true
+        });
+
+        // RTE might not be loaded yet, let's wait a little bit
+        if (rte === 'tinymce') {
             // TinyMCE v3
-            tinymce.onAddEditor().add(function(mgr, editor) {
+            tinymce.onAddEditor.add(function(mgr, editor) {
                 editor.onInit.add(function() {
                     setListener(0);
                 });
@@ -23,7 +30,6 @@
                 });
             });
         }
-        // RTE might not be loaded yet, let's wait a little bit
         var setListener = function(attempts) {
             if (!attempts) {
                 attempts = 0;
@@ -45,7 +51,6 @@
             field.fireEvent('rteLoaded', field);
             if (editor.on) {
                 // Only for TinyMCE RTE (v4)
-                // @TODO find a more clever way handle this, ie. only "sync" when the user stops typing
                 editor.on('change', editor.save, editor);
             }
         };
@@ -103,5 +108,4 @@
             field.fireEvent('rteUnloaded', field);
         }
     }
-    MODx.rte = original;
 })

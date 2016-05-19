@@ -15,15 +15,18 @@
     };
 
     // Override the CKEditor provided MODx.loadRTE so we could add some methods/data to fields with an RTE instance
-    var loadRTE = MODx.loadRTE.prototype.constructor;
+    RTE.setOriginalMethod('ckeditor', MODx.loadRTE.prototype.constructor);
     MODx.loadRTE = function(id) {
-        loadRTE.call(this, id);
-
         var field = Ext.getCmp(id);
         if (!field) {
+            console.error('Field', id, 'not found');
             return;
         }
-        field.addEvents({rteLoaded: true, rteUnloaded: true});
+        RTE.callOriginalMethod('ckeditor', id);
+        field.addEvents({
+            rteLoaded: true
+            ,rteUnloaded: true
+        });
         field.rteLoaded = true;
         /**
          * Convenient method to retrieve the editor instance from the ExtJS field
@@ -57,5 +60,4 @@
         field.getRTE = function() {};
         field.fireEvent('rteUnloaded', field);
     };
-    MODx.rte = original;
 })
