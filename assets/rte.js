@@ -7,9 +7,14 @@ var RTE = (function() {
      */
     function iterate(cmp) {
         if (MODx.config.use_editor && MODx.loadRTE) {
-            // Handle MODX form panels
-            var container = cmp.fp ? cmp.fp : cmp;
-            var fields = container.find('rte', true);
+            var fields = [];
+            if (cmp instanceof Ext.form.TextArea) {
+                // In case cmp is a text area
+                fields = [cmp];
+            } else {
+                var container = cmp.fp ? cmp.fp : cmp;
+                fields = container.find('rte', true);
+            }
 
             Ext.each(fields, function (field, idx, array) {
                 var f = Ext.getCmp(field.id);
@@ -137,7 +142,7 @@ var RTE = (function() {
             if (cmp.rendered) {
                 iterate(cmp);
             } else {
-                cmp.on('afterrender', iterate);
+                cmp.on('render', iterate);
             }
         }
         /**
