@@ -17,14 +17,17 @@ class CKEditor extends BaseRTE
     {
         $settings = $this->rte->getRTEOptions();
         $options = [];
-        $overrides = [];
+        $overrides = [
+            "window['_ckeditor'] = {};"
+        ];
         // Since the implementation is looking inside MODx.config JS array, let's override it
         foreach ($settings as $k => $value) {
             if ($this->isValidSetting($k)) {
                 $key = $this->getRTEKey($k);
-                $this->modx->setOption("{$this->prefix}.{$k}", $value);
+                $this->modx->setOption("{$this->prefix}.{$key}", $value);
                 $options[$key] = $value;
-                $overrides[] = "MODx.config['{$this->prefix}.{$k}'] = '{$value}';";
+                $overrides[] = "MODx.config['{$this->prefix}.{$key}'] = '{$value}';";
+                $overrides[] = "window['_ckeditor']['{$key}'] = {$value};";
             }
         }
         $overrides = implode("\n", $overrides);

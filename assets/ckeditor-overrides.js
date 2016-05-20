@@ -14,6 +14,13 @@
         return field;
     };
 
+    // Replace method to handle our 'per field' configuration
+    var replace = CKEDITOR.replace.prototype.constructor;
+    CKEDITOR.replace = function(element, config) {
+        Ext.apply(config, window['_ckeditor']);
+        return replace.call(this, element, config);
+    };
+
     // Override the CKEditor provided MODx.loadRTE so we could add some methods/data to fields with an RTE instance
     RTE.setOriginalMethod('ckeditor', MODx.loadRTE.prototype.constructor);
     MODx.loadRTE = function(id) {

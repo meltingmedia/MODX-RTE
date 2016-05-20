@@ -110,7 +110,7 @@ class Loader
 
     /**
      * Set a particular configuration to the given field
-     * 
+     *
      * @param string $fieldID
      * @param array $options
      */
@@ -162,6 +162,26 @@ HTML
                     $result = implode('', $result);
                 }
                 $this->modx->controller->addHtml($result);
+            }
+            if ($this->editor === 'Redactor') {
+                // Dirty trick to store default "global" Redactor configuration
+                $path = $this->modx->getOption(
+                    'redactor.core_path',
+                    null,
+                    $this->modx->getOption('core_path').'components/redactor/'
+                );
+                $redactor = $this->modx->getService('redactor', 'model.redactor.Redactor', $path);
+
+                $defaults = json_encode(array_merge(
+                    $redactor->config,
+                    $redactor->getGlobalOptions()
+                ));
+                $this->modx->controller->addHtml(<<<HTML
+<script>
+window['_redactor'] = {$defaults};
+</script>
+HTML
+                );
             }
             $rte->loadOverrides();
         }

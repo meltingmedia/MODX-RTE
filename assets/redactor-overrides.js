@@ -1,10 +1,18 @@
 (function() {
+    // Override the redactor function so we could apply "per field" configuration
+    var red = $red.fn.redactor;
+    $red.fn.redactor = function(config) {
+        Ext.apply(config, window['_redactor']);
+
+        return red.call(this, config);
+    };
+
     RTE.setOriginalMethod('redactor', MODx.loadRTE.prototype.constructor);
     /**
      * @param {String|Array} elements
      */
     MODx.loadRTE = function(elements) {
-        RTE.callOriginalMethod('ckeditor', elements);
+        RTE.callOriginalMethod('redactor', elements);
         if (!Ext.isArray(elements)) {
             elements = [elements];
         }

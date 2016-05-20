@@ -39,12 +39,10 @@ var RTE = (function() {
     function getRTE(rte) {
         if (rte === 'tinymcerte') {
             return TinyMCERTE;
-        }
-        if (rte === 'tinymce') {
+        } else if (rte === 'tinymce') {
             return Tiny;
-        }
-        if (rte === 'ckeditor') {
-            return MODx.ux.CKEditor;
+        } else if (rte === 'ckeditor' || rte === 'redactor') {
+            return window;
         }
     }
     /**
@@ -57,12 +55,12 @@ var RTE = (function() {
     function getRTEConfigKey(rte) {
         if (rte === 'tinymcerte') {
             return 'editorConfig';
-        }
-        if (rte === 'tinymce') {
+        } else if (rte === 'tinymce') {
             return 'config';
-        }
-        if (rte === 'ckeditor') {
-            return 'editorConfig';
+        } else if (rte === 'ckeditor') {
+            return '_ckeditor';
+        } else if (rte === 'redactor') {
+            return '_redactor';
         }
     }
     /**
@@ -153,6 +151,12 @@ var RTE = (function() {
          */
         ,setOriginalMethod: function(rte, callback) {
             original[rte] = callback;
+            // Some tricks for some RTEs
+            if (rte === 'ckeditor') {
+                window['_ckeditor'] = window['_ckeditor'] || {};
+            } else if (rte === 'redactor') {
+                window['_redactor'] = window['_redactor'] || {};
+            }
             // Store RTE default configuration (so we can handle per field configuration)
             defaults[rte] = clone(getRTE(rte)[getRTEConfigKey(rte)]);
         }

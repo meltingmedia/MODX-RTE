@@ -82,7 +82,7 @@ abstract class BaseRTE
         foreach ($settings as $k => $value) {
             if ($this->isValidSetting($k)) {
                 $key = $this->getRTEKey($k);
-                $this->modx->setOption("{$this->prefix}.{$k}", $value);
+                $this->modx->setOption("{$this->prefix}.{$key}", $value);
                 $options[$key] = $value;
             }
         }
