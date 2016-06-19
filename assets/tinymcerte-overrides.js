@@ -8,7 +8,6 @@
             console.error('Field', id, 'not found');
             return;
         }
-        RTE.callOriginalMethod(rte, id);
         field.addEvents({
             rteLoaded: true
             ,rteUnloaded: true
@@ -24,8 +23,8 @@
             })
         } else {
             // TinyMCE v4
-            tinymce.on('addEditor',function(vent) {
-                vent.editor.on('init', function() {
+            tinymce.once('addEditor',function(vent) {
+                vent.editor.once('init', function() {
                     setListener(0);
                 });
             });
@@ -54,6 +53,7 @@
                 editor.on('change', editor.save, editor);
             }
         };
+        RTE.callOriginalMethod(rte, id);
         /**
          * @returns {tinymce.Editor}
          */
