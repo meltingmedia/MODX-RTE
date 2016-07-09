@@ -1,0 +1,19 @@
+image: dock.melt.im/docker/docker-builder:latest
+
+
+.base: &base
+    tags:
+        - docker
+
+composer:
+    <<: *base
+    stage: deploy
+    script:
+        - curl -X POST -F token=${COMPOSER} -F "ref=master" -F "variables[NS]=melting/modx/rte" ${TRIGGER}
+
+#mirror:
+#    <<: *base
+#    stage: deploy
+#    script:
+#        - git remote add github git@github.com:meltingmedia/MODX-RTE.git
+#        - git push github master
