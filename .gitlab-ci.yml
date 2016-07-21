@@ -9,7 +9,7 @@ composer:
     <<: *base
     stage: deploy
     script:
-        - curl -X POST -F token=${COMPOSER} -F "ref=master" -F "variables[NS]=melting/modx/rte" ${TRIGGER}
+        - curl -X POST -F token=${COMPOSER_TOKEN} -F "ref=master" -F "variables[NS]=melting/modx/rte" ${TRIGGER}
 
 #mirror:
 #    <<: *base
