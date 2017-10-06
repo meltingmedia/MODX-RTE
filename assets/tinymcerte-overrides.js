@@ -8,6 +8,9 @@
             console.error('Field', id, 'not found');
             return;
         }
+        if (field.rteLoaded && field.rteLoaded === true) {
+            return;
+        }
         field.addEvents({
             rteLoaded: true
             ,rteUnloaded: true
@@ -96,7 +99,10 @@
     if (!MODx.unloadRTE) {
         // No method to unload an RTE instance, let's create it
         MODx.unloadRTE = function(id) {
-            tinymce.get(id).remove();
+            var instance = tinymce.get(id);
+            if (instance) {
+                instance.remove();
+            }
             var field = Ext.getCmp(id);
             if (!field) {
                 return;
@@ -106,6 +112,12 @@
             field.setValue = Ext.form.TextArea.prototype.setValue;
             field.getRTE = function() {};
             field.fireEvent('rteUnloaded', field);
+        }
+    }
+
+    if (rte === 'tinymcerte') {
+        TinyMCERTE.loadForTVs = function() {
+            // nullify
         }
     }
 })

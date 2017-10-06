@@ -142,6 +142,20 @@ var RTE = (function() {
             } else {
                 cmp.on('render', iterate);
             }
+            if (cmp instanceof MODx.Window) {
+                // some trick to make sure the RTE instances remains usable after collapsing/expanding a windows
+                cmp.on('collapse', function() {
+                    // remove all RTEs instances
+                    var rte = cmp.fp.find('rte', true);
+                    Ext.each(rte, function(field) {
+                        MODx.unloadRTE(field.id);
+                    });
+                });
+                cmp.on('expand', function() {
+                    // restore all instances
+                    RTE.loadRTEs(cmp);
+                });
+            }
         }
         /**
          * Store the original MODx.loadRTE method, so we could restore/call it after overriding it for our needs
